@@ -1,12 +1,14 @@
 <template>
+<main class="main">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">REGISTRO DE CLIENTES</div>
                     <div class="card-body">
+                        <button type="submit"  @click="nuevocliente()" data-toggle="modal" data-target="#frmCliente" class="btn btn-primary"><i class="fa fa-search"></i> Nuevo Cliente</button>
                        <form method="POST">
-                           <table>
+                           <!-- <table>
                                <tr>
                                    <td>Nombre</td>
                                    <td><input type="text" v-model="nombre" placeholder="Nombre Cliente"></td>
@@ -20,6 +22,10 @@
                                    <td><input type="date" v-model="fechaNacimiento" placeholder="Fecha Nacimiento"></td>
                                </tr>
                                <tr>
+                                   <td>Nro Carnet</td>
+                                   <td><input type="text" v-model="ci" placeholder="ci"></td>                                
+                              </tr>
+                                <tr>
                                    <td>sexo</td>        
                                    <td>                                       
                                        <select v-model="sexo">
@@ -30,10 +36,6 @@
                                        
                                     </td>
                                </tr>
-                               <tr>
-                                   <td>Nro Carnet</td>
-                                   <td><input type="text" v-model="ci" placeholder="ci"></td>                                
-                              </tr>
                                <tr>
                                    <td>telefono</td>
                                    <td><input type="text" v-model="telefono" placeholder="telefono"></td>
@@ -50,7 +52,7 @@
                                     <button type="button" @click="eliminar()">eliminar</button>
                                 </td>
                                 </tr>
-                           </table>
+                           </table> -->
                            <input type="text" v-model="buscar" placeholder="Nombre Cliente">
                             <button type="button" @click="listar(buscar)">Buscar por Nombre</button>
                        </form>
@@ -79,8 +81,12 @@
                                     <td v-text="cliente.ci"></td>
                                     <td v-text="cliente.sexo"></td>
                                     <td v-text="cliente.telefono"></td>
-                                     <td v-text="cliente.correo_electronico"></td>
-                                    <td><a href="#" @click="editar(cliente)">Seleccionar</a></td>
+                                    <td v-text="cliente.correo_electronico"></td>
+                                    <td>
+                                        <!-- <button type="button" class="btn btn-warning btn-sm" @click="editar(cliente)">Editar</button> -->
+                                        <button type="button" @click="editar(cliente)" data-toggle="modal" data-target="#frmCliente" class="btn btn-warning btn-sm">Editar</button>
+                                        <button type="button" class="btn btn-danger btn-sm" @click="eliminar(cliente.id)">Eliminar</button>                                    
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -89,6 +95,74 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="frmCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Formulario  Registro - Cliente</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+                            <div class="col-md-9">
+                                <input type="text" v-model="nombre" class="form-control" placeholder=" Nombre">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Apellidos</label>
+                            <div class="col-md-9">
+                                <input type="text" v-model="apellidos" class="form-control" placeholder="Apellidos">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">fecha Nacimiento</label>
+                            <div class="col-md-9">
+                                <input type="date" v-model="fechaNacimiento" class="form-control"  placeholder="FechaNacimiento">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Ci</label>
+                            <div class="col-md-9">
+                                <input type="text" v-model="ci" class="form-control"  placeholder="Ci">
+                            </div>
+                        </div>
+                          <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Sexo</label>
+                            <div class="col-md-9">
+                                <td>                                       
+                                       <select v-model="sexo">
+                                           <option value="">Seleccione</option>
+                                           <option value="M">Masculino</option>
+                                           <option value="F">Femenino</option>
+                                       </select>
+                                </td>
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Telefono</label>
+                            <div class="col-md-9">
+                                <input type="text" v-model="telefono" class="form-control"  placeholder="Telefono">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 form-control-label" for="text-input">Correo_Electronico</label>
+                            <div class="col-md-9">
+                                <input type="text" v-model="correo_electronico" class="form-control" placeholder="Correo_Electronico">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cerrar</button>
+                    <button type="button" v-if="tipo==1" class="btn btn-primary" @click="guardar()"  data-dismiss="modal" aria-label="Close">Guardar</button>
+                    <button type="button" v-if="tipo==2" class="btn btn-primary" @click="modificar()"  data-dismiss="modal" aria-label="Close">Modificar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 </template>
 
 <script>
@@ -104,6 +178,7 @@
                 telefono:'',
                 correo_electronico:'',
                 buscar : '',
+                tipo:1,
                 arrayCliente : []
             }
         },
@@ -131,6 +206,10 @@
                 me.correo_electronico='';
                 me.buscar='';
             },
+            nuevocliente(){
+                let me = this;
+                me.tipo=1;
+            },
             guardar(){
                 let me = this;
                 axios.post('cliente/guardar',{
@@ -148,6 +227,8 @@
                     console.log(error);
                 });               
             },
+
+            
             editar(data=[]){
                 this.id_cliente = data['id'];
                 this.nombre = data['nombre'];
@@ -157,8 +238,9 @@
                 this.sexo = data['sexo'];
                 this.telefono = data['telefono'];
                 this.correo_electronico = data['correo_electronico'];
+                this.tipo=2;
             },
-             modificar(){
+            modificar(){
                 let me = this;
                 axios.put('cliente/modificar',{
                     'nombre': this.nombre,
@@ -175,9 +257,10 @@
                     console.log(error);
                 });  
             },
-            eliminar(){
+            eliminar(id){
                 let me = this;
-                axios.delete('cliente/eliminar/'+me.id_cliente).then(function(error){
+                axios.delete('cliente/eliminar/'+id).then(function(error){
+                    alert('Cliente eliminado con exito...');
                     me.listar('');
                 }).catch(function(error){
                     console.log(error);

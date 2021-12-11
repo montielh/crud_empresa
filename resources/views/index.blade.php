@@ -16,7 +16,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li @click="menu=1" class="nav-item">
-                         <!--  <a class="nav-link" href="#">cliente</a> -->
+                            <a class="nav-link" href="#">cliente</a> 
                             </li>
                             <li @click="menu=2" class="nav-item">
                              <!--<a class="nav-link" href="#">categoria</a> -->
@@ -28,7 +28,7 @@
                                <!-- <a class="nav-link" href="#">notaventa</a>-->
                             </li>
                             <li @click="menu=5" class="nav-item">
-                                <a class="nav-link" href="#">FrmEmpresa</a>
+                               <!-- <a class="nav-link" href="#">FrmEmpresa</a>-->
                             </li>
                         </ul>
                     </div>
